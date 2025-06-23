@@ -7,16 +7,28 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
 
+// ✅ Define proper TypeScript type for message
+type ChatMessage = {
+  id: number;
+  type: 'user' | 'bot';
+  content: string;
+  timestamp: Date;
+};
+
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
+
+  // ✅ Use correct type
+  const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 1,
-      type: 'bot' as const,
-      content: 'Assalam-o-Alaikum! I am your AI legal assistant. How can I help you today? You can ask me about Pakistani law, case research, or document drafting.',
+      type: 'bot',
+      content:
+        'Assalam-o-Alaikum! I am your AI legal assistant. How can I help you today? You can ask me about Pakistani law, case research, or document drafting.',
       timestamp: new Date(),
     },
   ]);
+
   const [inputMessage, setInputMessage] = useState('');
 
   const quickQuestions = [
@@ -29,9 +41,9 @@ export function Chatbot() {
   const handleSendMessage = () => {
     if (!inputMessage.trim()) return;
 
-    const newMessage = {
+    const newMessage: ChatMessage = {
       id: messages.length + 1,
-      type: 'user' as const,
+      type: 'user',
       content: inputMessage,
       timestamp: new Date(),
     };
@@ -41,13 +53,14 @@ export function Chatbot() {
 
     // Simulate AI response
     setTimeout(() => {
-      const aiResponse = {
+      const aiResponse: ChatMessage = {
         id: messages.length + 2,
-        type: 'bot' as const,
-        content: 'Thank you for your question. Based on Pakistani law, I can provide you with relevant information. Please note that this is general guidance and you should consult with a qualified legal professional for specific legal advice.',
+        type: 'bot',
+        content:
+          'Thank you for your question. Based on Pakistani law, I can provide you with relevant information. Please note that this is general guidance and you should consult with a qualified legal professional for specific legal advice.',
         timestamp: new Date(),
       };
-      setMessages(prev => [...prev, aiResponse]);
+      setMessages((prev) => [...prev, aiResponse]);
     }, 1000);
   };
 
@@ -74,16 +87,11 @@ export function Chatbot() {
           <Bot className="h-5 w-5 text-primary" />
           <span>Legal AI Assistant</span>
         </CardTitle>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setIsOpen(false)}
-          className="h-6 w-6"
-        >
+        <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="h-6 w-6">
           <X className="h-4 w-4" />
         </Button>
       </CardHeader>
-      
+
       <CardContent className="flex-1 flex flex-col p-4 space-y-4">
         <div className="flex-1 overflow-y-auto space-y-3">
           {messages.map((message) => (
@@ -131,7 +139,7 @@ export function Chatbot() {
             placeholder="Ask about Pakistani law..."
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+            onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
             className="flex-1"
           />
           <Button onClick={handleSendMessage} size="icon">
