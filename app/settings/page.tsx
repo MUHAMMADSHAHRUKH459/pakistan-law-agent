@@ -174,37 +174,7 @@ export default function Settings() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Database className="h-5 w-5" />
-                <span>Google Studio API Integration</span>
-              </CardTitle>
-              <CardDescription>
-                Connect Google Studio API for advanced data analysis and visualization
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-2 block">
-                  API Key
-                </label>
-                <Input
-                  type="password"
-                  placeholder="Enter your Google Studio API key"
-                  value={apiKey}
-                  onChange={(e) => setApiKey(e.target.value)}
-                />
-                <p className="text-xs text-gray-500 mt-1">
-                  Your API key is encrypted and stored securely
-                </p>
-              </div>
-              <div className="flex space-x-3">
-                <Button>Connect API</Button>
-                <Button variant="outline">Test Connection</Button>
-              </div>
-            </CardContent>
-          </Card>
+          
         </div>
 
         <div className="space-y-6">
